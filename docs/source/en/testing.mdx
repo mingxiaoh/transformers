@@ -33,11 +33,11 @@ There are 2 test suites in the repository:
    - [torch hub integration](https://github.com/huggingface/transformers/tree/main/.github/workflows/github-torch-hub.yml): checks whether torch hub
      integration works.
 
-   - [self-hosted (push)](https://github.com/huggingface/transformers/tree/main/.github/workflows/self-push.yml): runs fast tests on GPU only on commits on
+   - [self-hosted (push)](https://github.com/huggingface/transformers/tree/main/.github/workflows/self-push.yml): runs fast tests on CUDA only on commits on
      `main`. It only runs if a commit on `main` has updated the code in one of the following folders: `src`,
      `tests`, `.github` (to prevent running on added model cards, notebooks, etc.)
 
-   - [self-hosted runner](https://github.com/huggingface/transformers/tree/main/.github/workflows/self-scheduled.yml): runs normal and slow tests on GPU in
+   - [self-hosted runner](https://github.com/huggingface/transformers/tree/main/.github/workflows/self-scheduled.yml): runs normal and slow tests on CUDA in
      `tests` and `examples`:
 
 ```bash
@@ -431,37 +431,37 @@ pip install pytest-instafail
 pytest --instafail
 ```
 
-### To GPU or not to GPU
+### To CUDA or not to CUDA
 
-On a GPU-enabled setup, to test in CPU-only mode add `CUDA_VISIBLE_DEVICES=""`:
+On a CUDA-enabled setup, to test in CPU-only mode add `CUDA_VISIBLE_DEVICES=""`:
 
 ```bash
 CUDA_VISIBLE_DEVICES="" pytest tests/test_logging.py
 ```
 
-or if you have multiple gpus, you can specify which one is to be used by `pytest`. For example, to use only the
-second gpu if you have gpus `0` and `1`, you can run:
+or if you have multiple cudas, you can specify which one is to be used by `pytest`. For example, to use only the
+second cuda if you have cudas `0` and `1`, you can run:
 
 ```bash
 CUDA_VISIBLE_DEVICES="1" pytest tests/test_logging.py
 ```
 
-This is handy when you want to run different tasks on different GPUs.
+This is handy when you want to run different tasks on different CUDAs.
 
-Some tests must be run on CPU-only, others on either CPU or GPU or TPU, yet others on multiple-GPUs. The following skip
-decorators are used to set the requirements of tests CPU/GPU/TPU-wise:
+Some tests must be run on CPU-only, others on either CPU or CUDA or TPU, yet others on multiple-CUDAs. The following skip
+decorators are used to set the requirements of tests CPU/CUDA/TPU-wise:
 
 - `require_torch` - this test will run only under torch
-- `require_torch_cuda` - as `require_torch` plus requires at least 1 GPU
-- `require_torch_multi_cuda` - as `require_torch` plus requires at least 2 GPUs
-- `require_torch_non_multi_cuda` - as `require_torch` plus requires 0 or 1 GPUs
-- `require_torch_up_to_2_cudas` - as `require_torch` plus requires 0 or 1 or 2 GPUs
+- `require_torch_cuda` - as `require_torch` plus requires at least 1 CUDA
+- `require_torch_multi_cuda` - as `require_torch` plus requires at least 2 CUDAs
+- `require_torch_non_multi_cuda` - as `require_torch` plus requires 0 or 1 CUDAs
+- `require_torch_up_to_2_cudas` - as `require_torch` plus requires 0 or 1 or 2 CUDAs
 - `require_torch_tpu` - as `require_torch` plus requires at least 1 TPU
 
-Let's depict the GPU requirements in the following table:
+Let's depict the CUDA requirements in the following table:
 
 
-| n gpus | decorator                      |
+| n cudas | decorator                      |
 |--------+--------------------------------|
 | `>= 0` | `@require_torch`               |
 | `>= 1` | `@require_torch_cuda`           |
@@ -470,11 +470,11 @@ Let's depict the GPU requirements in the following table:
 | `< 3`  | `@require_torch_up_to_2_cudas`  |
 
 
-For example, here is a test that must be run only when there are 2 or more GPUs available and pytorch is installed:
+For example, here is a test that must be run only when there are 2 or more CUDAs available and pytorch is installed:
 
 ```python no-style
 @require_torch_multi_cuda
-def test_example_with_multi_gpu():
+def test_example_with_multi_cuda():
 ```
 
 If a test requires `tensorflow` use the `require_tf` decorator. For example:
@@ -484,13 +484,13 @@ If a test requires `tensorflow` use the `require_tf` decorator. For example:
 def test_tf_thing_with_tensorflow():
 ```
 
-These decorators can be stacked. For example, if a test is slow and requires at least one GPU under pytorch, here is
+These decorators can be stacked. For example, if a test is slow and requires at least one CUDA under pytorch, here is
 how to set it up:
 
 ```python no-style
 @require_torch_cuda
 @slow
-def test_example_slow_on_gpu():
+def test_example_slow_on_cuda():
 ```
 
 Some decorators like `@parametrized` rewrite test names, therefore `@require_*` skip decorators have to be listed
@@ -507,12 +507,12 @@ work. But it only works with non-unittests.
 
 Inside tests:
 
-- How many GPUs are available:
+- How many CUDAs are available:
 
 ```python
 from transformers.testing_utils import get_gpu_count
 
-n_gpu = get_gpu_count()  # works with torch and tf
+n_cuda = get_gpu_count()  # works with torch and tf
 ```
 
 ### Distributed training
@@ -528,7 +528,7 @@ Here are some tests that use it:
 
 To jump right into the execution point, search for the `execute_subprocess_async` call in those tests.
 
-You will need at least 2 GPUs to see these tests in action:
+You will need at least 2 CUDAs to see these tests in action:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1 RUN_SLOW=1 pytest -sv tests/test_trainer_distributed.py

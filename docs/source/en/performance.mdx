@@ -16,7 +16,7 @@ limitations under the License.
 
 # Performance and Scalability
 
-Training larger and larger transformer models and deploying them to production comes with a range of challenges. During training your model can require more GPU memory than is available or be very slow to train and when you deploy it for inference it can be overwhelmed with the throughput that is required in the production environment. This documentation is designed to help you navigate these challenges and find the best setting for your use-case. We split the guides into training and inference as they come with different challenges and solutions. Then within each of them we have separate guides for different kinds of hardware setting (e.g. single vs. multi-GPU for training or CPU vs. GPU for infrence).
+Training larger and larger transformer models and deploying them to production comes with a range of challenges. During training your model can require more CUDA memory than is available or be very slow to train and when you deploy it for inference it can be overwhelmed with the throughput that is required in the production environment. This documentation is designed to help you navigate these challenges and find the best setting for your use-case. We split the guides into training and inference as they come with different challenges and solutions. Then within each of them we have separate guides for different kinds of hardware setting (e.g. single vs. multi-CUDA for training or CPU vs. CUDA for infrence).
 
 ![perf_overview](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/perf_overview.png)
 
@@ -24,30 +24,40 @@ This document serves as an overview and entry point for the methods that could b
 
 ## Training
 
-Training transformer models efficiently requires an accelerator such as a GPU or TPU. The most common case is where you only have a single GPU, but there is also a section about multi-GPU and CPU training (with more coming soon).
+Training transformer models efficiently requires an accelerator such as a CUDA or TPU. The most common case is where you only have a single CUDA, but there is also a section about multi-CUDA and CPU training (with more coming soon).
 
 <Tip>
 
- Note: Most of the strategies introduced in the single GPU sections (such as mixed precision training or gradient accumulation) are generic and apply to training models in general so make sure to have a look at it before diving into the following sections such as multi-GPU or CPU training.
+ Note: Most of the strategies introduced in the single CUDA sections (such as mixed precision training or gradient accumulation) are generic and apply to training models in general so make sure to have a look at it before diving into the following sections such as multi-CUDA or CPU training.
 
 </Tip>
 
-### Single GPU
+### Single CUDA
 
-Training large models on a single GPU can be challenging but there are a number of tools and methods that make it feasible. In this section methods such as mixed precision training, gradient accumulation and checkpointing, efficient optimizers, as well as strategies to determine the best batch size are discussed.
+Training large models on a single CUDA can be challenging but there are a number of tools and methods that make it feasible. In this section methods such as mixed precision training, gradient accumulation and checkpointing, efficient optimizers, as well as strategies to determine the best batch size are discussed.
 
-[Go to single GPU training section](perf_train_gpu_one)
+[Go to single CUDA training section](perf_train_cuda_one)
 
-### Multi-GPU
+### Multi-CUDA
 
-In some cases training on a single GPU is still too slow or won't fit the large model. Moving to a multi-GPU setup is the logical step, but training on multiple GPUs at once comes with new decisions: does each GPU have a full copy of the model or is the model itself also distributed? In this section we look at data, tensor, and pipeline parallism.
+In some cases training on a single CUDA is still too slow or won't fit the large model. Moving to a multi-CUDA setup is the logical step, but training on multiple CUDAs at once comes with new decisions: does each CUDA have a full copy of the model or is the model itself also distributed? In this section we look at data, tensor, and pipeline parallism.
 
-[Go to multi-GPU training section](perf_train_gpu_many)
+[Go to multi-CUDA training section](perf_train_cuda_many)
 
 ### CPU
 
 
 [Go to CPU training section](perf_train_cpu)
+
+### XPU
+
+
+[Go to XPU training section](perf_train_xpu)
+
+### Multi-XPU
+
+
+[Go to multi-XPU training section](perf_train_xpu_many)
 
 
 ### TPU
@@ -60,19 +70,23 @@ In some cases training on a single GPU is still too slow or won't fit the large 
 
 ## Inference
 
-Efficient inference with large models in a production environment can be as challenging as training them. In the following sections we go through the steps to run inference on CPU and single/multi-GPU setups.
+Efficient inference with large models in a production environment can be as challenging as training them. In the following sections we go through the steps to run inference on CPU and single/multi-CUDA setups.
 
 ### CPU
 
 [Go to CPU inference section](perf_infer_cpu)
 
-### Single GPU
+### Single XPU
 
-[Go to single GPU inference section](perf_infer_gpu_one)
+[Go to single XPU inference section](perf_infer_xpu_one)
 
-### Multi-GPU
+### Single CUDA
 
-[Go to multi-GPU inference section](perf_infer_gpu_many)
+[Go to single CUDA inference section](perf_infer_cuda_one)
+
+### Multi-CUDA
+
+[Go to multi-CUDA inference section](perf_infer_cuda_many)
 
 ### Specialized Hardware
 

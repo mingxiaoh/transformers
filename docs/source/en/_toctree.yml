@@ -93,10 +93,14 @@
   - sections:
     - local: performance
       title: Overview
-    - local: perf_train_gpu_one
-      title: Training on one GPU
-    - local: perf_train_gpu_many
-      title: Training on many GPUs
+    - local: perf_train_cuda_one
+      title: Training on one CUDA
+    - local: perf_train_cuda_many
+      title: Training on many CUDAs
+    - local: perf_train_xpu_one
+      title: Training on one XPU
+    - local: perf_train_xpu_many
+      title: Training on many XPUs
     - local: perf_train_cpu
       title: Training on CPU
     - local: perf_train_cpu_many
@@ -109,10 +113,12 @@
       title: Training on Specialized Hardware
     - local: perf_infer_cpu
       title: Inference on CPU
-    - local: perf_infer_gpu_one
-      title: Inference on one GPU
-    - local: perf_infer_gpu_many
-      title: Inference on many GPUs
+    - local: perf_infer_xpu_one
+      title: Inference on one XPU      
+    - local: perf_infer_cuda_one
+      title: Inference on one CUDA
+    - local: perf_infer_cuda_many
+      title: Inference on many CUDAs
     - local: perf_infer_special
       title: Inference on Specialized Hardware
     - local: perf_hardware
